@@ -1,5 +1,6 @@
 var express=require('express');
 var bodyparser=require('body-parser');
+var _=require('lodash')
 var {mongoose}=require('./../Mongo-config/mongo_config');
 var {projectmodel}=require('./../Mongo_models/projectModel');
 
@@ -17,11 +18,11 @@ router.post('/',(req,res)=>{
     startDate:req.body.startDate,
     endDate:req.body.endDate,
 
-  });
+  })
   project.save().then((pro)=>{
     res.send({pro});
   }).catch((e)=>{
-    res.status(400).send();
+    res.status(400).send(e.errors[_.toString(Object.keys(e.errors)[0])].message);
   });
 
 });
