@@ -3,12 +3,12 @@ var bodyparser=require('body-parser');
 var _=require('lodash')
 var {mongoose}=require('./../Mongo-config/mongo_config');
 var {projectmodel}=require('./../Mongo_models/projectModel');
-
+var {authenticate}=require('./../usersRoutes/authenticate');
 var router = express.Router();
-var app=express();
+
 router.use(bodyparser.json());
 
-router.post('/',(req,res)=>{
+router.post('/',authenticate,(req,res)=>{
   var project=new projectmodel({
     name:req.body.name,
     description:req.body.description,
@@ -17,12 +17,14 @@ router.post('/',(req,res)=>{
     category:req.body.category,
     startDate:req.body.startDate,
     endDate:req.body.endDate,
-
-  })
+    duration:req.body.endDate-req.body.startDate,
+    _creator:req.user._id
+  });
   project.save().then((pro)=>{
     res.send({pro});
   }).catch((e)=>{
-    res.status(400).send(e.errors[_.toString(Object.keys(e.errors)[0])].message);
+    //e.errors[_.toString(Object.keys(e.errors)[0])].message
+    res.status(400).send(e);
   });
 
 });

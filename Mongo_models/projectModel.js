@@ -1,31 +1,32 @@
-//var mongoosee=require('mongoose');
+
 var validator=require('validator');
 var _=require('lodash');
+var mongoose=require('mongoose')
 
+// exist=(n)=>{
+//   return projectmodel.findOne({name:n}).then((res)=>{
+//     if(res)
+//     return false;
+//   })
+// };
 
-var {mongoose}=require('./../Mongo-config/mongo_config');
-
-exist=(n)=>{
-  return projectmodel.findOne({name:n}).then((res)=>{
-    if(res)
-    return false;
-  })
-};
-
-var nameValidators = [
-    { validator: validator.isAlphanumeric, msg: 'Name property should contain only letters and numbers.' },
-    { validator: exist, msg: 'This project name already exists.' }
-];
+// var nameValidators = [
+//     { validator: validator.isAlphanumeric, msg: 'Name property should contain only letters and numbers.' },
+//     // { validator: exist, msg: 'This project name already exists.' }
+// ];
 
 
 var projectmodel=mongoose.model('Projects',{
 name:{type:String,
-  validate:nameValidators,
+
+  //validate:{validator:validator.isAlphanumeric,msg:'Name property should contain only letters and numbers.'},
 trim:true,
 minlength:[6,'Name should be at least 6 characters.'],
 required:[true,'Name is required'],
 },
-
+duration:{
+  type:Number,
+},
 description:{type:String,
 default:null
 },
@@ -50,7 +51,13 @@ startDate:{type:Number,
 },
 
 endDate:{type:Number,
-  default:null}
+  default:null},
+
+_creator:{
+  type:mongoose.Schema.Types.ObjectId,
+  default:null
+//  required:true
+}
 
 });
 
