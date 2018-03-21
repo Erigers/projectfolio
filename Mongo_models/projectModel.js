@@ -57,7 +57,14 @@ _creator:{
   type:mongoose.Schema.Types.ObjectId,
   default:null
 //  required:true
+},
+rate:{
+  type:Number,
+  default:0
+
 }
+
+
 
 });
 

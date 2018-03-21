@@ -120,14 +120,18 @@ else if(s!==undefined&&category!==undefined&&duration==='lts'){
 }
 
 else{
-  res.status(400).send('eni');
+  res.status(400).send();
 }
 });
 
-router.get('/projects/search/rates',(req,res)=>{
 
-});
-
+router.get('/search/rates',(req,res)=>{
+  projectmodel.find().sort({rate:-1}).then((projects)=>{
+    res.send(projects)
+  }).catch((e)=>{
+    res.status(400).end();
+  })
+})
 
 
 // router.get('/projects/category',(req,res)=>{

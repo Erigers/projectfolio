@@ -25,7 +25,7 @@ runValidators: true}).then((pro)=>{
     res.send({pro});
   }
 }).catch((e)=>{
-  res.status(400).send(e);
+  res.status(400).send();
 });
 
 });

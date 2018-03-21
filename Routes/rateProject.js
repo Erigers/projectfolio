@@ -25,8 +25,18 @@ projectmodel.findOne({_id:projectId}).then((project)=>{
         userId
       });
       ratePro.save().then((pro)=>{
-        res.status(200).send();
-      }).catch((e)=>{
+
+
+return rateModel.averageRate(projectId);
+
+}).then((avg)=>{
+  projectmodel.findOneAndUpdate({_id:projectId},{$set:{rate:avg}},{new:true}).then(()=>{
+  res.status(200).send();
+  }).catch(()=>{
+    res.status(400).send();
+  });
+
+}).catch((e)=>{
         res.status(400).send(e);
       })
     }
